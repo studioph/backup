@@ -1,0 +1,10 @@
+[Unit]
+Description=Timer that triggers self-update@%I.service
+Requires=self-update@%I.service
+
+[Timer]
+Unit=self-update@%I.service
+OnCalendar=monthly
+
+[Install]
+WantedBy=timers.target
