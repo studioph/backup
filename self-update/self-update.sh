@@ -3,8 +3,6 @@
 set -euo pipefail
 IFS=$'\n\t'
 
-PATH="$PATH:$HOME/.local/bin"
-
 case "$1" in
   restic)
     BIN="restic"
@@ -20,4 +18,14 @@ case "$1" in
     ;;
 esac
 
-"$BIN" "$CMD"
+BIN_DIR="${2:-/usr/local/bin}"
+BIN_PATH="$BIN_DIR/$BIN"
+
+function self-update() {
+  "$BIN_PATH" "$CMD"
+  chown root:backup "$BIN_PATH"
+  chmod 750 "$BIN_PATH"
+  setcap cap_dac_read_search=+ep "$BIN_PATH"
+}
+
+self-update

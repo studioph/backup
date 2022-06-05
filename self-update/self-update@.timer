@@ -1,10 +1,11 @@
 [Unit]
-Description=Timer that triggers self-update@%I.service
-Requires=self-update@%I.service
+Description=Trigger self-update@%I.service
 
 [Timer]
 Unit=self-update@%I.service
 OnCalendar=monthly
+RandomizedDelaySec=1h
+Persistent=true
 
 [Install]
 WantedBy=timers.target

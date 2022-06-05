@@ -1,12 +1,6 @@
 [Unit]
 Description=Update the %I binary
-Wants=self-update@%I.timer
 
 [Service]
 Type=oneshot
-ExecStart=/home/paul/.local/bin/self-update.sh %I
-User=paul
-Group=paul
-
-[Install]
-WantedBy=multi-user.target
+ExecStart=/usr/local/bin/self-update.sh %I
