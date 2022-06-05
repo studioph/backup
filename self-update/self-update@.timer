@@ -1,8 +1,8 @@
 [Unit]
-Description=Trigger self-update@%I.service
+Description=Trigger self-update@%i.service
 
 [Timer]
-Unit=self-update@%I.service
+Unit=self-update@%i.service
 OnCalendar=monthly
 RandomizedDelaySec=1h
 Persistent=true

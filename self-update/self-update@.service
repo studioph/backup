@@ -1,6 +1,6 @@
 [Unit]
-Description=Update the %I binary
+Description=Update the %i binary
 
 [Service]
 Type=oneshot
-ExecStart=/usr/local/bin/self-update.sh %I
+ExecStart=/usr/local/bin/self-update.sh %i
