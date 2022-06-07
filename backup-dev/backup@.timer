@@ -1,0 +1,10 @@
+[Unit]
+Description=Timer that triggers backup@%I.service
+
+[Timer]
+Unit=backup@%i.service
+OnCalendar=daily America/New_York
+Persistent=true
+
+[Install]
+WantedBy=timers.target
