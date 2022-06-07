@@ -1,8 +1,7 @@
 [Unit]
-Description=Backs up %I
+Description=Backup %I
 
 [Service]
-Type=oneshot
 User=backup
 Group=backup
 EnvironmentFile=/usr/local/etc/backup/.env
@@ -10,3 +9,6 @@ EnvironmentFile=/usr/local/etc/backup/.env.secret
 EnvironmentFile=%I/.config/backup/.env
 EnvironmentFile=%I/.config/backup/.env.secret
 ExecStart=/usr/local/bin/backup.sh %I
+
+[Install]
+WantedBy=multi-user.target

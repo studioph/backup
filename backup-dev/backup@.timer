@@ -1,10 +1,11 @@
 [Unit]
-Description=Timer that triggers backup@%I.service
+Description=Trigger backup of %I
 
 [Timer]
 Unit=backup@%i.service
 OnCalendar=daily America/New_York
 Persistent=true
+RandomizedDelaySec=1h
 
 [Install]
 WantedBy=timers.target
