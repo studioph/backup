@@ -1,0 +1,98 @@
+- name: Install backup services
+  hosts: localhost
+  connection: local
+  become: true
+
+  tasks:
+    - name: Create global backup config folder
+      ansible.builtin.file:
+        path: /usr/local/etc/backup
+        state: directory
+        mode: 0760
+
+    - name: Install global backup configs
+      ansible.builtin.copy:
+        dest: /usr/local/etc/backup/{{ item }}
+        src: '{{ item }}'
+        mode: 0660
+      with_items:
+        - .env
+        - .env.secret
+
+    - name: Create system backup config and cache folders
+      ansible.builtin.file:
+        path: '{{ item }}'
+        state: directory
+        mode: 0770
+        owner: root
+        group: backup
+      with_items:
+        - /.config/backup
+        - /.cache/restic
+    
+    - name: Install system backup configs
+      ansible.builtin.copy:
+        dest: /.config/backup/{{ item | basename }}
+        src: '{{ item }}'
+        mode: 0660
+      with_fileglob:
+        - dev.system/*
+        - dev.system/.*
+
+    - name: Create home backup config and cache folders
+      ansible.builtin.file:
+        path: '{{ item }}'
+        state: directory
+        mode: 0770
+        owner: paul
+        group: backup
+      with_items:
+        - /home/paul/.config/backup
+        - /home/paul/.cache/restic
+    
+    - name: Install home backup configs
+      ansible.builtin.copy:
+        dest: /home/paul/.config/backup/{{ item | basename }}
+        src: '{{ item }}'
+        mode: 0660
+        owner: paul
+        group: backup
+      with_fileglob:
+        - dev.home/*
+        - dev.home/.*
+
+    - name: Install self-update and backup scripts
+      ansible.builtin.copy:
+        dest: /usr/local/bin/{{ item | basename }}
+        src: '{{ item }}'
+        mode: 0775
+      with_items:
+        - self-update/self-update.sh
+        - backup-dev/backup.sh
+    
+    - name: Install systemd units
+      ansible.builtin.copy:
+        dest: /etc/systemd/system/{{ item | basename }}
+        src: '{{ item }}'
+        mode: 0664
+      with_fileglob:
+        - self-update/self-update@*
+        - backup-dev/backup@*
+    
+    - name: Enable systemd timers
+      ansible.builtin.systemd:
+        name: '{{ item }}'
+        state: started
+        enabled: true
+        force: true
+      with_items:
+        - self-update@restic.timer
+        - self-update@rclone.timer
+        - backup@-home-paul.timer
+        - backup@-.timer
+
+    - name: Reload systemd
+      ansible.builtin.systemd:
+        daemon_reload: true
+
+
