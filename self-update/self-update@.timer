@@ -1,5 +1,5 @@
 [Unit]
-Description=Trigger self-update@%i.service
+Description=Trigger %i self-update
 
 [Timer]
 Unit=self-update@%i.service

@@ -1,6 +1,8 @@
 [Unit]
-Description=Update the %i binary
+Description=Update %i binary
 
 [Service]
-Type=oneshot
 ExecStart=/usr/local/bin/self-update.sh %i
+
+[Install]
+WantedBy=multi-user.target
