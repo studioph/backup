@@ -5,9 +5,9 @@ Description=Backup %I
 User=backup
 Group=backup
 EnvironmentFile=/usr/local/etc/backup/.env
-EnvironmentFile=/usr/local/etc/backup/.env.secret
+EnvironmentFile=/usr/local/etc/backup/.secret.env
 EnvironmentFile=%I/.config/backup/.env
-EnvironmentFile=%I/.config/backup/.env.secret
+EnvironmentFile=%I/.config/backup/.secret.env
 ExecStart=/usr/local/bin/backup.sh %I
 
 [Install]

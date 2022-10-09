@@ -17,7 +17,7 @@
         mode: 0660
       with_items:
         - .env
-        - .env.secret
+        - .secret.env
 
     - name: Create system backup config and cache folders
       ansible.builtin.file:
